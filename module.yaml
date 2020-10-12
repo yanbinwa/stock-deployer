@@ -95,3 +95,69 @@ services:
     - MYSQL_USERNAME=${MYSQL_USER}
     - MYSQL_PASSWORD=${MYSQL_PASS}
 
+  stock-task-service:
+    image: harbor.emotibot.com/stock/stock-task-service:3eb4866-20201008
+    container_name: stock-task-service
+    ports:
+    - 1700:1700
+    restart: always
+    logging:
+      options:
+        max-size: "5M"
+        max-file: "10"
+      driver: json-file
+    environment:
+    - REDIS_HOST=${REDIS_HOST}
+    - REDIS_PORT=${REDIS_PORT}
+    - REDIS_PASS=${REDIS_PASS}
+    - REDIS_ENABLE=true
+    - MINIO_HOST=${MINIO_HOST}
+    - MINIO_PORT=${MINIO_PORT}
+    - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+    - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+    - MYSQL_URL=jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/crawl?characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    - MYSQL_USERNAME=${MYSQL_USER}
+    - MYSQL_PASSWORD=${MYSQL_PASS}
+
+  standalone-chrome:
+    container_name: standalone-chrome
+    image: harbor.emotibot.com/gemini/standalone-chrome:3.141.59-zinc
+    logging:
+      driver: json-file
+      options:
+        max-file: '10'
+        max-size: 1M
+    ports:
+    - ${WEBDRIVER_PORT}:${WEBDRIVER_PORT}
+    shm_size: 2g
+    restart: always
+
+  gemini-spider-service:
+    image: harbor.emotibot.com/gemini/gemini-spider-service:a5c18e5-20201012
+    container_name: gemini-spider-service
+    ports:
+    - 1618:1618
+    restart: always
+    logging:
+      options:
+        max-size: "5M"
+        max-file: "10"
+      driver: json-file
+    environment:
+    - REDIS_HOST=${REDIS_HOST}
+    - REDIS_PORT=${REDIS_PORT}
+    - REDIS_PASS=${REDIS_PASS}
+    - REDIS_ENABLE=true
+    - MINIO_HOST=${MINIO_HOST}
+    - MINIO_PORT=${MINIO_PORT}
+    - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+    - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+    - MYSQL_URL=jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/crawl?characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    - MYSQL_USERNAME=${MYSQL_USER}
+    - MYSQL_PASSWORD=${MYSQL_PASS}
+    - CS_WEB_DRIVER_URL=http://${WEBDRIVER_HOST}:${WEBDRIVER_PORT}
+    - CS_WEB_DRIVER_MAX_IDLE=1
+    - CS_WEB_DRIVER_MAX_TOTAL=2
+    - CS_WEB_DRIVER_MIN_IDLE=0
+    - CS_WEB_DRIVER_INIT_SIZE=1
+    - CS_REDIS_KEY_CRAWLED=crawled
