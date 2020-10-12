@@ -1,0 +1,97 @@
+version: '2.1'
+services:
+  mysql:
+    image: harbor.emotibot.com/library/mysql:5.7
+    container_name: mysql
+    ports:
+    - 3306:3306
+    environment:
+    - MYSQL_ROOT_PASSWORD=password
+    - TZ=Asia/Taipei
+    mem_limit: 5125m
+    volumes:
+    - ${VOLUME_PATH}/mysql:/var/lib/mysql
+    restart: always
+    logging:
+      options:
+        max-size: "5M"
+        max-file: "10"
+      driver: json-file
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=password --execute=\"SHOW DATABASES;\""
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: harbor.emotibot.com/library/redis:3.2.9
+    container_name: redis
+    ports:
+    - 6379:6379
+    restart: always
+    logging:
+      options:
+        max-size: "5M"
+        max-file: "10"
+      driver: json-file
+    command: redis-server --requirepass password
+
+  minio:
+    container_name: minio
+    image: harbor.emotibot.com/bfop/minio:RELEASE.2019-05-02T19-07-09Z
+    logging:
+      driver: json-file
+      options:
+        max-file: "10"
+        max-size: "5m"
+    environment:
+    - MINIO_ACCESS_KEY=${MINIO_USERNAME}
+    - MINIO_SECRET_KEY=${MINIO_PASSWORD}
+    - MINIO_SECURE=${MINIO_SECURE}
+    restart: always
+    volumes:
+    - ${VOLUME_PATH}/miniogw/data:/data
+    - ${VOLUME_PATH}/miniogw/ssl:/root/.minio/certs
+    command: server /data
+    ports:
+    - 9000:9000
+
+#  stock-task-ui:
+#    image: harbor.emotibot.com/yanbin/stock-task-ui:57b2c5e5-20200818-1728
+#    container_name: stock-task-ui
+#    ports:
+#    - 8081:8081
+#    restart: always
+#    logging:
+#      options:
+#        max-size: "5M"
+#        max-file: "10"
+#      driver: json-file
+#    environment:
+#    - MYSQL_ROOT_PASSWORD=password
+#    - TZ=Asia/Taipei
+
+  stock-task-service:
+    image: harbor.emotibot.com/stock/stock-task-service:3eb4866-20201008
+    container_name: stock-task-service
+    ports:
+    - 1700:1700
+    restart: always
+    logging:
+      options:
+        max-size: "5M"
+        max-file: "10"
+      driver: json-file
+    environment:
+    - REDIS_HOST=${REDIS_HOST}
+    - REDIS_PORT=${REDIS_PORT}
+    - REDIS_PASS=${REDIS_PASS}
+    - REDIS_ENABLE=true
+    - MINIO_HOST=${MINIO_HOST}
+    - MINIO_PORT=${MINIO_PORT}
+    - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+    - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+    - MYSQL_URL=jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/crawl?characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    - MYSQL_USERNAME=${MYSQL_USER}
+    - MYSQL_PASSWORD=${MYSQL_PASS}
+
