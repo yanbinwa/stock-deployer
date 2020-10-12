@@ -45,8 +45,8 @@ services:
         max-file: "10"
         max-size: "5m"
     environment:
-    - MINIO_ACCESS_KEY=${MINIO_USERNAME}
-    - MINIO_SECRET_KEY=${MINIO_PASSWORD}
+    - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+    - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
     - MINIO_SECURE=${MINIO_SECURE}
     restart: always
     volumes:
