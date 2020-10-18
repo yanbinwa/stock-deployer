@@ -56,20 +56,20 @@ services:
     ports:
     - 9000:9000
 
-#  stock-task-ui:
-#    image: harbor.emotibot.com/yanbin/stock-task-ui:57b2c5e5-20200818-1728
-#    container_name: stock-task-ui
-#    ports:
-#    - 8081:8081
-#    restart: always
-#    logging:
-#      options:
-#        max-size: "5M"
-#        max-file: "10"
-#      driver: json-file
-#    environment:
-#    - MYSQL_ROOT_PASSWORD=password
-#    - TZ=Asia/Taipei
+  stock-task-ui:
+    image: harbor.emotibot.com/yanbin/stock-task-ui:b3e2501c-20201018-1956
+    container_name: stock-task-ui
+    ports:
+    - ${STOCK_TASK_UI_PORT}:${STOCK_TASK_UI_PORT}
+    logging:
+      options:
+        max-size: "5M"
+        max-file: "10"
+      driver: json-file
+    environment:
+      - STOCK_TASK_UI_PORT=${STOCK_TASK_UI_PORT}
+      - STOCK_TASK_URL=${STOCK_TASK_HOST}:${STOCK_TASK_PORT}
+    restart: always
 
   stock-task-service:
     image: harbor.emotibot.com/stock/stock-task-service:3eb4866-20201008
