@@ -57,7 +57,7 @@ services:
     - 9000:9000
 
   stock-task-ui:
-    image: harbor.emotibot.com/yanbin/stock-task-ui:b3e2501c-20201018-1956
+    image: harbor.emotibot.com/yanbin/stock-task-ui:63586fde-20201018-2053
     container_name: stock-task-ui
     ports:
     - ${STOCK_TASK_UI_PORT}:${STOCK_TASK_UI_PORT}
