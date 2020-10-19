@@ -109,7 +109,7 @@ services:
     restart: always
 
   gemini-spider-service:
-    image: harbor.emotibot.com/gemini/gemini-spider-service:a5c18e5-20201012
+    image: harbor.emotibot.com/gemini/gemini-spider-service:6d72145-20201019
     container_name: gemini-spider-service
     ports:
     - 1618:1618
