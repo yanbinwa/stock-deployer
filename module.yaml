@@ -56,6 +56,19 @@ services:
     ports:
     - 9000:9000
 
+  standalone-chrome:
+    container_name: standalone-chrome
+    image: harbor.emotibot.com/gemini/standalone-chrome:3.141.59-zinc
+    logging:
+      driver: json-file
+      options:
+        max-file: '10'
+        max-size: 1M
+    ports:
+    - ${WEBDRIVER_PORT}:${WEBDRIVER_PORT}
+    shm_size: 2g
+    restart: always
+
   stock-task-ui:
     image: harbor.emotibot.com/yanbin/stock-task-ui:2ff6cf86-20201102-0839
     container_name: stock-task-ui
@@ -68,7 +81,7 @@ services:
       driver: json-file
     environment:
       - STOCK_TASK_UI_PORT=${STOCK_TASK_UI_PORT}
-      - STOCK_TASK_URL=${STOCK_TASK_HOST}:${STOCK_TASK_PORT}
+      - STOCK_ADMIN_URL=${STOCK_SECURITY_HOST}:${STOCK_SECURITY_PORT}
     restart: always
 
   stock-task-service:
@@ -95,18 +108,27 @@ services:
     - MYSQL_USERNAME=${MYSQL_USER}
     - MYSQL_PASSWORD=${MYSQL_PASS}
     - SPIDER_URL=http://${SPIDER_HOST}:${SPIDER_PORT}
-  standalone-chrome:
-    container_name: standalone-chrome
-    image: harbor.emotibot.com/gemini/standalone-chrome:3.141.59-zinc
-    logging:
-      driver: json-file
-      options:
-        max-file: '10'
-        max-size: 1M
+
+  stock-security-service:
+    image: harbor.emotibot.com/stock/stock-security-service:8b2c313-20201111
+    container_name: stock-security-service
     ports:
-    - ${WEBDRIVER_PORT}:${WEBDRIVER_PORT}
-    shm_size: 2g
+    - 7879:7879
     restart: always
+    logging:
+      options:
+        max-size: "5M"
+        max-file: "10"
+      driver: json-file
+    environment:
+    - REDIS_HOST=${REDIS_HOST}
+    - REDIS_PORT=${REDIS_PORT}
+    - REDIS_PASS=${REDIS_PASS}
+    - REDIS_ENABLE=true
+    - MYSQL_URL=jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/admin?characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    - MYSQL_USERNAME=${MYSQL_USER}
+    - MYSQL_PASSWORD=${MYSQL_PASS}
+    - STOCK_BASE_URL=${STOCK_TASK_HOST}:${STOCK_TASK_PORT}
 
   gemini-spider-service:
     image: harbor.emotibot.com/gemini/gemini-spider-service:acbd912-20201031
