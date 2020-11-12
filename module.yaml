@@ -82,6 +82,7 @@ services:
     environment:
       - STOCK_TASK_UI_PORT=${STOCK_TASK_UI_PORT}
       - STOCK_ADMIN_URL=${STOCK_SECURITY_HOST}:${STOCK_SECURITY_PORT}
+      - STOCK_TASK_URL=${STOCK_TASK_HOST}:${STOCK_TASK_PORT}
     restart: always
 
   stock-task-service:
