@@ -70,7 +70,7 @@ services:
     restart: always
 
   stock-task-ui:
-    image: harbor.emotibot.com/yanbin/stock-task-ui:aadcc409-20201112-0904
+    image: harbor.emotibot.com/yanbin/stock-task-ui:0037535d-20201114-2349
     container_name: stock-task-ui
     ports:
     - ${STOCK_TASK_UI_PORT}:${STOCK_TASK_UI_PORT}
@@ -129,7 +129,7 @@ services:
     - MYSQL_URL=jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/admin?characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
     - MYSQL_USERNAME=${MYSQL_USER}
     - MYSQL_PASSWORD=${MYSQL_PASS}
-    - STOCK_BASE_URL=${STOCK_TASK_HOST}:${STOCK_TASK_PORT}
+    - STOCK_BASE_URL=http://${STOCK_TASK_HOST}:${STOCK_TASK_PORT}
 
   gemini-spider-service:
     image: harbor.emotibot.com/gemini/gemini-spider-service:acbd912-20201031
