@@ -111,7 +111,7 @@ services:
     - SPIDER_URL=http://${SPIDER_HOST}:${SPIDER_PORT}
 
   stock-security-service:
-    image: harbor.emotibot.com/stock/stock-security-service:141f66f-20201112
+    image: harbor.emotibot.com/stock/stock-security-service:58038ab-20201113
     container_name: stock-security-service
     ports:
     - 7879:7879
