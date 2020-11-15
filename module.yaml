@@ -70,7 +70,7 @@ services:
     restart: always
 
   stock-task-ui:
-    image: harbor.emotibot.com/yanbin/stock-task-ui:0037535d-20201114-2349
+    image: harbor.emotibot.com/yanbin/stock-task-ui:e18af36e-20201115-1825
     container_name: stock-task-ui
     ports:
     - ${STOCK_TASK_UI_PORT}:${STOCK_TASK_UI_PORT}
@@ -111,7 +111,7 @@ services:
     - SPIDER_URL=http://${SPIDER_HOST}:${SPIDER_PORT}
 
   stock-security-service:
-    image: harbor.emotibot.com/stock/stock-security-service:6a13fd2-20201115
+    image: harbor.emotibot.com/stock/stock-security-service:7fbd908-20201115
     container_name: stock-security-service
     ports:
     - 7879:7879
