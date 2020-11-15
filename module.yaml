@@ -70,7 +70,7 @@ services:
     restart: always
 
   stock-task-ui:
-    image: harbor.emotibot.com/yanbin/stock-task-ui:e18af36e-20201115-1825
+    image: harbor.emotibot.com/yanbin/stock-task-ui:3e63c5a5-20201115-2341
     container_name: stock-task-ui
     ports:
     - ${STOCK_TASK_UI_PORT}:${STOCK_TASK_UI_PORT}
