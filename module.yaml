@@ -160,6 +160,7 @@ services:
     - CS_WEB_DRIVER_MIN_IDLE=0
     - CS_WEB_DRIVER_INIT_SIZE=1
     - CS_REDIS_KEY_CRAWLED=crawled
+    - SCRIPT_STOCK_TOKEN=script/aes.min.js
 
 networks:
   default:
