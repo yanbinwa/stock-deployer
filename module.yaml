@@ -70,7 +70,7 @@ services:
     restart: always
 
   stock-task-ui:
-    image: harbor.emotibot.com/yanbin/stock-task-ui:3e63c5a5-20201115-2341
+    image: harbor.emotibot.com/yanbin/stock-task-ui:ca17015c-20201116-2307
     container_name: stock-task-ui
     ports:
     - ${STOCK_TASK_UI_PORT}:${STOCK_TASK_UI_PORT}
@@ -86,7 +86,7 @@ services:
     restart: always
 
   stock-task-service:
-    image: harbor.emotibot.com/stock/stock-task-service:e7ce441-20201111
+    image: harbor.emotibot.com/stock/stock-task-service:064a8f8-20201117
     container_name: stock-task-service
     ports:
     - 1700:1700
@@ -132,7 +132,7 @@ services:
     - STOCK_BASE_URL=http://${STOCK_TASK_HOST}:${STOCK_TASK_PORT}
 
   gemini-spider-service:
-    image: harbor.emotibot.com/gemini/gemini-spider-service:acbd912-20201031
+    image: harbor.emotibot.com/gemini/gemini-spider-service:74b3c43-20201117
     container_name: gemini-spider-service
     ports:
     - 1618:1618
