@@ -132,7 +132,7 @@ services:
     - STOCK_BASE_URL=http://${STOCK_TASK_HOST}:${STOCK_TASK_PORT}
 
   gemini-spider-service:
-    image: harbor.emotibot.com/gemini/gemini-spider-service:74b3c43-20201117
+    image: harbor.emotibot.com/gemini/gemini-spider-service:70a3e22-20201206
     container_name: gemini-spider-service
     ports:
     - 1618:1618
